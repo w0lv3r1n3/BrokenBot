@@ -1,6 +1,13 @@
 ; Pauses exectution for number of milliseconds
 ; Returns True if bot no longer running
 
+Global $dll
+$dll = DllOpen("kernel32.dll")
+Func _ModifiedSLeep($T)
+	DllCall($dll, "none", "Sleep", "long", $T)
+EndFunc ;==>_ModifiedSLeep
+
+
 Func _Sleep($iDelay, $iSleep = True, $ReturnIfStopped = True)
 	Local $iBegin = TimerInit()
 	Local $count = 0
@@ -16,14 +23,14 @@ Func _Sleep($iDelay, $iSleep = True, $ReturnIfStopped = True)
 			Else
 				ControlHide("", "", $txtLog)
 			EndIf
-			If $iSleep = True Then Sleep(50)
+			If $iSleep = True Then _ModifiedSLeep(50)
 		WEnd
 		If _GUICtrlTab_GetCurSel($tabMain) = 0 Then
 			ControlShow("", "", $txtLog)
 		Else
 			ControlHide("", "", $txtLog)
 		EndIf
-		If $iSleep = True Then Sleep(50)
+		If $iSleep = True Then _ModifiedSLeep(50)
 	WEnd
 	Return False
 EndFunc   ;==>_Sleep
